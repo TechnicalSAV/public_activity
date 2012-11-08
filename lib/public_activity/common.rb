@@ -86,7 +86,8 @@ module PublicActivity
           :key        => options[:key],
           :owner      => options[:owner],
           :recipient  => options[:recipient],
-          :parameters => options[:params]
+          :parameters => options[:params],
+          :institution => options[:institution]
         )
       end
     end
@@ -127,6 +128,13 @@ module PublicActivity
         self.class.activity_recipient_global
       )
 
+      # institutiuon of the activity
+      institution = PublicActivity.resolve_value(self,
+        options[:institution] ||
+        self.activity_institution ||
+        self.class.activity_institution_global
+      )
+
       #customizable parameters
       params = options[:params] || {}
       params.merge!(self.class.activity_params_global)
@@ -137,7 +145,8 @@ module PublicActivity
         :key        => key,
         :owner      => owner,
         :recipient  => recipient,
-        :params     => params
+        :params     => params,
+        :institution => institution
       }
     end
   end

@@ -8,13 +8,17 @@ module PublicActivity
     belongs_to :owner, :polymorphic => true
     # Define ownership to a resource targeted by this activity
     belongs_to :recipient, :polymorphic => true
+    # Define ownership to institution
+    belongs_to :institution
     # Serialize parameters Hash
     serialize :parameters, Hash
 
     class_attribute :template
 
     # should recipient and owner be accessible?
-    attr_accessible :key, :owner, :parameters, :recipient, :trackable
+    attr_accessible :key, :owner, :parameters, :recipient, :trackable, :institution
+
+    before_create :set_institution
     # Virtual attribute returning text description of the activity
     # using basic ERB templating
     #
@@ -125,6 +129,10 @@ module PublicActivity
       path.delete_at(0) if path[0] == "activity"
       path.unshift "public_activity"
       path.join("/")
+    end
+
+    def set_institution
+      self.institution_id = self.trackable.institution_id
     end
   end
 end

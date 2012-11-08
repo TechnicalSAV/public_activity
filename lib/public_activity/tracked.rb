@@ -5,9 +5,10 @@ module PublicActivity
 
     included do
       class_attribute :activity_owner_global, :activity_recipient_global,
-                      :activity_params_global, :activity_hooks, :public_activity_enabled_for_model
+                      :activity_params_global, :activity_institution_global, :activity_hooks, :public_activity_enabled_for_model
       self.activity_owner_global             = nil
       self.activity_recipient_global         = nil
+      self.activity_institution_global       = nil
       self.activity_params_global            = {}
       self.activity_hooks                    = {}
       self.public_activity_enabled_for_model = true
@@ -97,6 +98,9 @@ module PublicActivity
     # @!visibility private
     @@activity_hooks = {}
 
+    attr_accessor :activity_institution
+    @activity_institution = nil
+
     # @!endgroup
 
     # A shortcut method for setting custom key, owner and parameters of {Activity}
@@ -129,6 +133,7 @@ module PublicActivity
       self.activity_owner = options[:owner] if options[:owner]
       self.activity_params = options[:params] if options[:params]
       self.activity_recipient = options[:recipient] if options[:recipient]
+      self.activity_institution = options[:institution] if options[:institution]
       nil
     end
 
