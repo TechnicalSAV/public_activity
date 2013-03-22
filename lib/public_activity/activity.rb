@@ -132,7 +132,7 @@ module PublicActivity
     end
 
     def set_institution
-      self.institution_id = self.trackable.institution_id
+      self.institution_id = self.trackable.try(:institution_id)
     end
   end
 end
